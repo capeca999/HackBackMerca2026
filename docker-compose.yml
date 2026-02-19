@@ -6,10 +6,21 @@ services:
       - .:/app
       - m2:/root/.m2
     environment:
-      SPRING_PROFILES_ACTIVE: h2
+      SPRING_PROFILES_ACTIVE: postgres
+      JAVA_TOOL_OPTIONS: "-Djava.net.preferIPv4Stack=true"
     command: >
       sh -lc "mvn -q -DskipTests spring-boot:run"
     ports:
       - "8080:8080"
+
+  adminer:
+      image: adminer:latest
+      ports:
+        - "8081:8080"
+      environment:
+        # opcional, solo para que Adminer arranque "ya" con PostgreSQL seleccionado
+        ADMINER_DEFAULT_SERVER: mockos.io
+
+
 volumes:
   m2:
